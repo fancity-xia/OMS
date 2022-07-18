@@ -2,7 +2,7 @@
 
 #### 目的
 
-该应用方便用户将Aliyun oss桶数据迁移至Huaweiyun OBS桶内
+该应用方便用户将Aliyun oss桶数据迁移至Huaweiyun OBS桶内(可以支持AWS、Azure、Aliyun、Tencent、HuaweiCloud、QingCloud、KingsoftCloud、Baidu、Qiniu、URLSource或者UCloud。默认值为Aliyun, 目前应该已绑定Aliyun, 其他需求可通过改配置文件实现)
 
 
 #### 部署
@@ -67,7 +67,6 @@ oss://${bucket_name}/${project_name}/${library}/${any_unkonw}/${filename}
 prefix/object: 
 ```shell
 # 迁移oss://${bucket_name}/${project_name}/${library}/${any_unkonw}/目录下文件前缀为201127的文件
-```python3
 ./CloudToOBS create_task --task_type prefix --object_key ${project_name}/${library}/${any_unkonw}/201127
 
 # 迁移目录oss://${bucket_name}/${project_name}/${library}/${any_unkonw}
@@ -79,18 +78,16 @@ prefix/object:
 
 list/url_list
 ```shell
-# 创建文件${Afile}(建议使用时间戳, 类似[20220718100024],防止多用户文件覆盖, 保证文件唯一), 将所有需要迁移的文件写入, 格式如下
-A.txt:
+# 创建文件${Afile}(建议使用时间戳, 类似[20220718100024.txt],防止多用户文件覆盖, 保证文件唯一), 将所有需要迁移的文件写入, 格式如下
+${Afile}:
 ${project_name}/${library}/${any_unkonw}/A.txt
 ${project_name}/${library}/${any_unkonw}/b.gz
-.
-.
 .
 
 # 将该文件上传至obs桶(建议目的桶)
 obsutil  cp -r object_list_file.txt  obs://${obs_bucket}/
 
-# ./CloudToOBS create_task --task_type list --list_file  ${Afile}
+./CloudToOBS create_task --task_type list --list_file  ${Afile}
 
 # 关于url_list则只需将${Afile}的文件格式调整为url, 具体url则需要去源桶中获取
 ```
@@ -113,8 +110,8 @@ obsutil  cp -r object_list_file.txt  obs://${obs_bucket}/
     "complete_size": 129708,
     "description": "",
     "dst_node": {
-        "bucket": "kf-tranfer",
-        "region": "cn-north-4",
+        "bucket": "******",
+        "region": "**",
         "save_prefix": ""
     },
     "enable_failed_object_recording": true,
@@ -138,14 +135,14 @@ obsutil  cp -r object_list_file.txt  obs://${obs_bucket}/
     "real_size": 129708,
     "skipped_num": 0,
     "src_node": {
-        "bucket": "homeward-backup",
+        "bucket": "**",
         "cloud_type": "Aliyun",
-        "region": "cn-shenzhen",
+        "region": "****",
         "app_id": "",
         "object_key": [],
         "list_file": {
             "list_file_key": "object_list_file.txt",
-            "obs_bucket": "kf-tranfer"
+            "obs_bucket": "****"
         }
     },
     "start_time": 1658108292801,
@@ -195,7 +192,7 @@ end_time: 结束时间
 
 
 ###### 任务流量限制
-限制220621019041293s上午10点到下午6点带宽为100M
+限制220621019041293上午10点到下午6点带宽为100M
 ```shell
 ./CloudToOBS traffic_task --task_id  220621019041293 --start_time 10:00 --end_time 18:00 --bindwidth 104857600
 ```
