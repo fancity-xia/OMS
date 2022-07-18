@@ -16,16 +16,9 @@ python >= 3.6
 | tabulate          | 0.8.10 |
 
 
-部署地：
-| IP             |   path                |
-| -------------- | --------------------- |
-| 114.116.195.106| /nas/pipeline_v2/OMS/ |
-
-
-
 #### 使用说明
 
-```python3
+```shell
 ./CloudToOBS
 usage: CloudToOBS [-h] {create_task,show_task,list_task,start_task,stop_task,delete_task,traffic_task} ...
 
@@ -47,7 +40,7 @@ optional arguments:
 ```
 
 ###### 创建任务
-```python3
+```shell
 ./CloudToOBS create_task -h
 usage: CloudToOBS create_task [-h] (--object_key OBJECT_KEY | --list_file LIST_FILE) [--task_type {prefix,list,url_list,object}]
 
@@ -62,7 +55,9 @@ optional arguments:
 
 ```
 阿里云路径结构
+```
 oss://${bucket_name}/${project_name}/${library}/${any_unkonw}/${filename}
+```
 
 | 任务类型               | 参数类型                         |
 | --------------------- | -------------------------------- |
@@ -70,7 +65,7 @@ oss://${bucket_name}/${project_name}/${library}/${any_unkonw}/${filename}
 |  list/url_list        | list_file                        |
 
 prefix/object: 
-```python3
+```shell
 # 迁移oss://${bucket_name}/${project_name}/${library}/${any_unkonw}/目录下文件前缀为201127的文件
 ```python3
 ./CloudToOBS create_task --task_type prefix --object_key ${project_name}/${library}/${any_unkonw}/201127
@@ -83,7 +78,7 @@ prefix/object:
 ```
 
 list/url_list
-```python3
+```shell
 # 创建文件${Afile}(建议使用时间戳, 类似[20220718100024],防止多用户文件覆盖, 保证文件唯一), 将所有需要迁移的文件写入, 格式如下
 A.txt:
 ${project_name}/${library}/${any_unkonw}/A.txt
@@ -102,8 +97,8 @@ obsutil  cp -r object_list_file.txt  obs://${obs_bucket}/
 **Response**
 ```json
 {
-    "id": 220621019041293,  // 任务id, 用于后续查询
-    "task_name": "homeward-backup-kf-tranfer-20220718093812801_994"  // 任务名
+    "id": 220621019041293,
+    "task_name": "homeward-backup-kf-tranfer-20220718093812801_994" 
 }
 
 ```
@@ -154,7 +149,7 @@ obsutil  cp -r object_list_file.txt  obs://${obs_bucket}/
         }
     },
     "start_time": 1658108292801,
-    "status": 5,  // 状态1: "等待调度",2: "正在执行",3: "停止",4: "失败",5: "成功"
+    "status": 5,
     "successful_num": 9,
     "task_type": "list",
     "group_type": "NORMAL_TASK",
@@ -178,7 +173,7 @@ task_type: 任务类型
 src_bucket: 源桶
 cloud_type: 源云类型
 dst_bucket: 目的桶
-status: 任务状态
+status: 任务状态, 1: "等待调度",2: "正在执行",3: "停止",4: "失败",5: "成功"
 start_time: 开始时间
 end_time: 结束时间
 ```
@@ -201,6 +196,6 @@ end_time: 结束时间
 
 ###### 任务流量限制
 限制220621019041293s上午10点到下午6点带宽为100M
-```python3
+```shell
 ./CloudToOBS traffic_task --task_id  220621019041293 --start_time 10:00 --end_time 18:00 --bindwidth 104857600
 ```
