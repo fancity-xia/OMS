@@ -1,0 +1,23 @@
+#!/nas/software/miniconda3/bin/python3
+# -*- utf8 -*-
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent))
+from config import AK, SK
+from utils import OMS, Show, Help
+import os
+import re
+os.environ.setdefault('LANG', "zh_CN.UTF-8")
+
+
+def main(*args, **kwargs):
+    helpobj = Help()
+    cmd, params = helpobj.eparser()
+    omsserver = OMS(AK, SK)
+    Show(*getattr(omsserver, cmd)(**params))
+
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main(sys.argv[1:]))

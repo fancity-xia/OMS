@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="64cf906f-2e9e-4e2b-82df-beb756d5695d" name="huaweiyun">
+        <fileTransfer rootFolder="/nas/pipeline_v2/OMS" accessType="SFTP" host="114.116.195.106" port="22" sshConfigId="d6daed62-3845-40d7-a906-f7922171a209" sshConfig="xiazhanfeng@114.116.195.106:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
