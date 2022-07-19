@@ -78,19 +78,23 @@ prefix/object:
 
 list/url_list
 ```shell
-# 创建文件${Afile}(建议使用时间戳, 类似[20220718100024.txt],防止多用户文件覆盖, 保证文件唯一), 将所有需要迁移的文件写入, 格式如下
+# 创建文件${Afile}(建议使用时间戳, 类似[obs20220718100024.txt],防止多用户文件覆盖, 保证文件唯一), 将所有需要迁移的文件写入, 格式如下
 ${Afile}:
 ${project_name}/${library}/${any_unkonw}/A.txt
 ${project_name}/${library}/${any_unkonw}/b.gz
 .
 
-# 将该文件上传至obs桶(建议目的桶)
-obsutil  cp -r object_list_file.txt  obs://${obs_bucket}/
-
-./CloudToOBS create_task --task_type list --list_file  ${Afile}
 
 # 关于url_list则只需将${Afile}的文件格式调整为url, 具体url则需要去源桶中获取
 ```
+将该文件上传至obs桶(建议目的桶)
+
+~~obsutil  cp -r object_list_file.txt  obs://${obs_bucket}/~~
+目前已支持本地自动上传至目的桶, 因此提供本地obs20220718100024.txt即可
+
+./CloudToOBS create_task --task_type list --list_file  ${Afile}
+
+
 **Response**
 ```json
 {
