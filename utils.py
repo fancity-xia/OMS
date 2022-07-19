@@ -8,6 +8,7 @@ from huaweicloudsdkcore.auth.credentials import BasicCredentials
 from huaweicloudsdkoms.v2.region.oms_region import OmsRegion
 from huaweicloudsdkcore.exceptions import exceptions
 from huaweicloudsdkoms.v2 import *
+from obsutil import Obsutil
 import logging
 import time
 import tabulate
@@ -94,9 +95,13 @@ class OMS:
             elif task_type in ["list", "url_list"]:
                 # if len(list_file) > 1:
                 #    raise InvalidParameter(f"无效filelist参数值{filelist},len必须为1")
+                # 将本地文件上传至目的桶内
+                obsobj = Obsutil()
+                remotefile = obsobj.put(list_file)
+                print(remotefile)
                 src_node_src_node_req = SrcNodeReq(
                     **OSS,
-                    list_file=ListFile(list_file_key=list_file, obs_bucket=OBS["bucket"])
+                    list_file=ListFile(list_file_key=remotefile, obs_bucket=OBS["bucket"])
                 )
             else:
                 raise InvalidParameter(f"无效task_type参数值{task_type}")
